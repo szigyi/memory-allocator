@@ -5,13 +5,12 @@ import hu.szigyi.memoryallocator.model.DataBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class BlockingMemoryManagerImpl implements MemoryManager {
+public class ArrayBasedMemoryManagerImpl implements MemoryManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BlockingMemoryManagerImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ArrayBasedMemoryManagerImpl.class);
 
     private static final int BLOCK_SIZE = 1024;
 
@@ -23,13 +22,13 @@ public class BlockingMemoryManagerImpl implements MemoryManager {
 
     private int free;
 
-    public BlockingMemoryManagerImpl(int sizeOfStorage) {
+    public ArrayBasedMemoryManagerImpl(int sizeOfStorage) {
         lock = new ReentrantLock();
         free = sizeOfStorage;
         storage = new byte[sizeOfStorage][BLOCK_SIZE];
-        // this data structure helps tracking the allocated, free blocks
+        // this data structure helps tracking the allocated blocks
         allocatedFlag = new boolean[sizeOfStorage];
-        LOG.info("MemoryManager is created with size: {}", sizeOfStorage);
+        LOG.debug("MemoryManager is created with size: {}", sizeOfStorage);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class BlockingMemoryManagerImpl implements MemoryManager {
         }
         free -= numBlocksRequired;
         lock.unlock();
-        LOG.info("Allocated: {}", indices);
+        LOG.debug("Allocated: {}", indices);
 
         DataBlock block = new FragmentedDataBlockImpl(storage, indices);
 
@@ -84,6 +83,6 @@ public class BlockingMemoryManagerImpl implements MemoryManager {
 
         lock.unlock();
 
-        LOG.info("Released: {}", indices);
+        LOG.debug("Released: {}", indices);
     }
 }

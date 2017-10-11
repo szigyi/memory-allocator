@@ -47,7 +47,7 @@ public class CompactingMemoryManagerImpl implements MemoryManager {
         // tracking the free space in the whole storage to quickly reject request if does not fit
         free = sizeOfStorage;
 
-        LOG.info("MemoryManager is created with size: {}", sizeOfStorage);
+        LOG.debug("MemoryManager is created with size: {}", sizeOfStorage);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CompactingMemoryManagerImpl implements MemoryManager {
 
         lock.unlock();
 
-        LOG.info("Allocated: start:{}, end:{}", db.getStart(), db.getEnd());
+        LOG.debug("Allocated: start:{}, end:{}", db.getStart(), db.getEnd());
         return db;
     }
 
@@ -130,6 +130,6 @@ public class CompactingMemoryManagerImpl implements MemoryManager {
 
         lock.unlock();
 
-        LOG.info("Released: start:{}, end:{}", db.getStart(), db.getEnd());
+        LOG.debug("Released: start:{}, end:{}", db.getStart(), db.getEnd());
     }
 }

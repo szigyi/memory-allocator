@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class BlockingMemoryManagerImplTest {
+public class ArrayBasedMemoryManagerImplTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -22,7 +22,7 @@ public class BlockingMemoryManagerImplTest {
         thrown.expect(IllegalArgumentException.class);
         int size = 1;
         int requestedBlocks = 0;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
     }
@@ -32,7 +32,7 @@ public class BlockingMemoryManagerImplTest {
         thrown.expect(RuntimeException.class);
         int size = 3;
         int requestedBlocks = 2;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
         memoryManager.allocate(requestedBlocks);
@@ -43,7 +43,7 @@ public class BlockingMemoryManagerImplTest {
         thrown.expect(RuntimeException.class);
         int size = 1;
         int requestedBlocks = 2;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
     }
@@ -52,7 +52,7 @@ public class BlockingMemoryManagerImplTest {
     public void whenAllocated_thenIndicesAreContinuous() throws Exception {
         int size = 5;
         int requestedBlocks = 2;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
@@ -65,7 +65,7 @@ public class BlockingMemoryManagerImplTest {
     public void whenOverAllocated_thenDoesNotLeak() throws Exception {
         int size = 2;
         int requestedBlocks = 3;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         try {
             memoryManager.allocate(requestedBlocks);
@@ -82,7 +82,7 @@ public class BlockingMemoryManagerImplTest {
     public void whenReleased_thenFreeSpaceReused() throws Exception {
         int size = 6;
         int requestedBlocks = 2;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
@@ -102,7 +102,7 @@ public class BlockingMemoryManagerImplTest {
     public void whenReleased_thenFragmentedFreeSpaceReused() throws Exception {
         int size = 10;
         int requestedBlocks = 2;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(3);

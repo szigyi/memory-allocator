@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
-public class BlockingMemoryManagerImplConcurrentTest {
+public class ArrayBasedMemoryManagerImplConcurrentTest {
 
     private MemoryManager memoryManager;
 
@@ -24,7 +24,7 @@ public class BlockingMemoryManagerImplConcurrentTest {
         int size = 100;
         int requestedBlocks1 = 5;
         int requestedBlocks2 = 5;
-        memoryManager = new BlockingMemoryManagerImpl(size);
+        memoryManager = new ArrayBasedMemoryManagerImpl(size);
 
         List<DataBlock> blocks1 = new ArrayList<>();
         List<DataBlock> blocks2 = new ArrayList<>();
