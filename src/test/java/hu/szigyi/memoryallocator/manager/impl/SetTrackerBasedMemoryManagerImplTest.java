@@ -12,9 +12,9 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArrayBasedMemoryManagerImplTest {
+public class SetTrackerBasedMemoryManagerImplTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ArrayBasedMemoryManagerImplTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SetTrackerBasedMemoryManagerImplTest.class);
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -26,7 +26,7 @@ public class ArrayBasedMemoryManagerImplTest {
         thrown.expect(IllegalArgumentException.class);
         int size = 1;
         int requestedBlocks = 0;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
     }
@@ -36,7 +36,7 @@ public class ArrayBasedMemoryManagerImplTest {
         thrown.expect(RuntimeException.class);
         int size = 3;
         int requestedBlocks = 2;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
         memoryManager.allocate(requestedBlocks);
@@ -47,7 +47,7 @@ public class ArrayBasedMemoryManagerImplTest {
         thrown.expect(RuntimeException.class);
         int size = 1;
         int requestedBlocks = 2;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         memoryManager.allocate(requestedBlocks);
     }
@@ -56,7 +56,7 @@ public class ArrayBasedMemoryManagerImplTest {
     public void whenAllocated_thenIndicesAreContinuous() throws Exception {
         int size = 5;
         int requestedBlocks = 2;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
@@ -69,7 +69,7 @@ public class ArrayBasedMemoryManagerImplTest {
     public void whenOverAllocated_thenDoesNotLeak() throws Exception {
         int size = 2;
         int requestedBlocks = 3;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         try {
             memoryManager.allocate(requestedBlocks);
@@ -86,7 +86,7 @@ public class ArrayBasedMemoryManagerImplTest {
     public void whenReleased_thenFreeSpaceReused() throws Exception {
         int size = 6;
         int requestedBlocks = 2;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
@@ -106,7 +106,7 @@ public class ArrayBasedMemoryManagerImplTest {
     public void whenReleased_thenFragmentedFreeSpaceReused() throws Exception {
         int size = 10;
         int requestedBlocks = 2;
-        memoryManager = new ArrayBasedMemoryManagerImpl(size);
+        memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         FragmentedDataBlock db1 = (FragmentedDataBlock) memoryManager.allocate(requestedBlocks);
         FragmentedDataBlock db2 = (FragmentedDataBlock) memoryManager.allocate(3);

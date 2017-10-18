@@ -6,12 +6,16 @@ import hu.szigyi.memoryallocator.model.DataBlock;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class HeavyReleasePatternBenchmarkTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HeavyReleasePatternBenchmarkTest.class);
 
     @Rule
     public TestRule benchmarkRun = new BenchmarkRule();
@@ -60,6 +64,14 @@ public class HeavyReleasePatternBenchmarkTest {
     public void CompactingMemoryManagerImpl() throws Exception {
         int size = 500_000;
         MemoryManager memoryManager = new CompactingMemoryManagerImpl(size);
+
+        runTest(size, memoryManager);
+    }
+
+    @Test
+    public void SetTrackerBasedMemoryManagerImpl() throws Exception {
+        int size = 500_000;
+        MemoryManager memoryManager = new SetTrackerBasedMemoryManagerImpl(size);
 
         runTest(size, memoryManager);
     }

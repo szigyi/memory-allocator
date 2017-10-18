@@ -5,12 +5,16 @@ import hu.szigyi.memoryallocator.model.FragmentedDataBlock;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
 public class SetBasedMemoryManagerImplTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SetBasedMemoryManagerImplTest.class);
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

@@ -118,7 +118,7 @@ public class CompactingMemoryManagerImpl implements MemoryManager {
     @Override
     public void release(DataBlock dataBlock) {
         ContiguousDataBlock db = (ContiguousDataBlock) dataBlock;
-        int size = db.getEnd() - db.getStart();
+        int size = db.getEnd() - db.getStart() + 1;
 
         lock.lock();
 

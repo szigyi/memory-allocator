@@ -4,6 +4,8 @@ import hu.szigyi.memoryallocator.manager.MemoryManager;
 import hu.szigyi.memoryallocator.model.ContiguousDataBlock;
 import hu.szigyi.memoryallocator.model.DataBlock;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 public class CompactingMemoryManagerImplConcurrentTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CompactingMemoryManagerImplConcurrentTest.class);
 
     private MemoryManager memoryManager;
 
@@ -61,8 +65,8 @@ public class CompactingMemoryManagerImplConcurrentTest {
         assertThat(blocks2Indices, hasSize(15));
         assertThat(blocks1Indices, not(containsInAnyOrder(blocks2Indices.toArray())));
 
-        System.out.println(blocks1Indices);
-        System.out.println(blocks2Indices);
+        LOG.info(blocks1Indices.toString());
+        LOG.info(blocks2Indices.toString());
     }
 
     @Test
@@ -105,8 +109,8 @@ public class CompactingMemoryManagerImplConcurrentTest {
         assertThat(blocks2Indices, hasSize(15));
         assertThat(blocks1Indices, not(containsInAnyOrder(blocks2Indices.toArray())));
 
-        System.out.println(blocks1Indices);
-        System.out.println(blocks2Indices);
+        LOG.info(blocks1Indices.toString());
+        LOG.info(blocks2Indices.toString());
     }
 
     class TestClient implements Runnable {

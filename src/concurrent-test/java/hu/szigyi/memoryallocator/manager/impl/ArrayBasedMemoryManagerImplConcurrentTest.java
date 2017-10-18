@@ -4,6 +4,8 @@ import hu.szigyi.memoryallocator.manager.MemoryManager;
 import hu.szigyi.memoryallocator.model.DataBlock;
 import hu.szigyi.memoryallocator.model.FragmentedDataBlock;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 public class ArrayBasedMemoryManagerImplConcurrentTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ArrayBasedMemoryManagerImplConcurrentTest.class);
 
     private MemoryManager memoryManager;
 
@@ -50,8 +54,8 @@ public class ArrayBasedMemoryManagerImplConcurrentTest {
         assertThat(blocks2Indices, hasSize(15));
         assertThat(blocks1Indices, not(containsInAnyOrder(blocks2Indices.toArray())));
 
-        System.out.println(blocks1Indices);
-        System.out.println(blocks2Indices);
+        LOG.info(blocks1Indices.toString());
+        LOG.info(blocks2Indices.toString());
     }
 
     class TestClient implements Runnable {
